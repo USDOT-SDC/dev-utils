@@ -1,6 +1,6 @@
 # Developer Utilities
 <p align="center">
-    <img src="dev-utils-logo.png" alt="logo" width="150"/>
+    <img src="dev-utils-logo.png" alt="logo" height="200"/>
 </p>
 
 Welcome to the Developer Utilities repository! This collection of developer tools and utilities is designed to make your software development journey more efficient and productive. Whether you're a beginner or an experienced developer, these utilities can help you streamline common tasks, automate workflows, and improve your coding experience.
@@ -38,6 +38,12 @@ To get started with the Developer Utilities, follow these simple steps:
 The AWS Network Interface Query tool is a script that queries AWS network interfaces in your Amazon Web Services (AWS) environments.
 
 - [AWS Network Interface Query README](aws-net-if-query/README.md)
+
+### Windows Batch Files
+
+A collection of simple Windows batch files designed to help automate common tasks and processes on the Windows operating system.
+
+- [Windows Batch Files README](win-batch-files/README.md)
 
 ## Contributing
 
