@@ -1,6 +1,6 @@
 # AWS Network Interface Query
 <p align="center">
-    <img src="aws-net-if-query-logo.png" alt="logo" width="100"/>
+    <img src="aws-net-if-query-logo.png" alt="logo" height="200"/>
 </p>
 
 ## Overview
