@@ -1,0 +1,4 @@
+### specific ignores ###
+sandbox.py
+config-*.yaml
+last_token_refresh_*.txt

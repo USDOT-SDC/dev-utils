@@ -1,0 +1,4 @@
+boto3~=1.28
+requests~=2.31
+PyYAML~=6.0
+tabulate~=0.9

@@ -1,0 +1,9 @@
+# Copy and rename to config-{env}.yaml
+api_endpoint: "https://example.com/generate_token"
+api_key: "xxxxXXXXxxxxXXXXxxxxXXXXxxxxXXXXxxxxXXXX"
+profile_name: my_user-dev
+aws_config:
+  region_name: us-east-1
+  retries:
+    max_attempts: 10
+    mode: "standard"
