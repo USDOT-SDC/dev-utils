@@ -538,4 +538,4 @@ def get_transit_gateway_attachment_info(transit_gateway_attachment_id: str, aws_
         tags = tgwa_response["TransitGatewayAttachments"][0].get("Tags", [])
         return get_tags(tags) | {"AWS": "TGWA"}
     except ClientError as e:
-        return {"Name": function_name, "Error": "Unexpected error: %s" % e}
+        return {"Name": transit_gateway_attachment_id, "Error": "Unexpected error: %s" % e}
