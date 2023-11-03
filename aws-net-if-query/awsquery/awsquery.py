@@ -134,11 +134,16 @@ def get_net_interfaces(env: str, debug: bool) -> list[dict[str, str | bool]]:
         for idx, network_interface in enumerate(page_network_interfaces):
             # only look at interfaces w/attachments
             if "Attachment" in network_interface:
+                # if not network_interface["Description"].startswith("AWS created network interface for directory d-"):
+                #     continue
+                # if network_interface.get("RequesterId", "")[-18:] != "WorkSpace-Creation":
+                #     continue
                 dd(f"Found network interface with ID: {network_interface['NetworkInterfaceId']}", debug)
                 interface_id = network_interface["NetworkInterfaceId"]
                 interface_type = network_interface["InterfaceType"]
                 requester_managed = network_interface.get("RequesterManaged")
                 requester_id = network_interface.get("RequesterId", "")
+                private_ip_address: str = network_interface["PrivateIpAddress"]
                 mac_address = network_interface["MacAddress"]
                 description = network_interface["Description"]
                 instance_id = network_interface["Attachment"].get("InstanceId")
@@ -175,11 +180,18 @@ def get_net_interfaces(env: str, debug: bool) -> list[dict[str, str | bool]]:
                         start = description.find("fs-")
                         file_system_id = description[start : start + 20]
                         attachment_info = {"RequesterId": "amazon-efs", "AttachmentToId": file_system_id}
+                    # Directories
+                    elif description.startswith("AWS created network interface for directory d-"):
+                        directory_id = description[-12:]
+                        attachment_info = {"RequesterId": "amazon-directory", "AttachmentToId": directory_id}
                 # for interfaces that are not created/managed by an AWS service
                 else:
                     # EC2 instances
                     if instance_id:
                         attachment_info = {"RequesterId": "ec2", "AttachmentToId": instance_id}
+                    # Workspaces
+                    elif interface_type == "interface" and requester_id[-18:] == "WorkSpace-Creation":
+                        attachment_info = {"RequesterId": "WorkSpace-Creation", "AttachmentToId": private_ip_address}
                     # Lambda Functions
                     elif interface_type == "lambda":
                         function_name = description[19:-37]
@@ -313,6 +325,12 @@ def get_net_interface_details(network_interfaces: list[dict[str, str | bool]], e
                         "AWS": "Redshift",
                     }
                     network_interfaces[idx] = network_interface | info
+                # Directories
+                elif requester_id == "amazon-directory":
+                    dd("Directory network interface", debug=debug)
+                    info = get_directory_info(directory_id=attachment_to_id, aws_config=aws_config)
+                    info["Name"] = f"{info['Name']} {ip_address_segments[2]}.{ip_address_segments[3]}"
+                    network_interfaces[idx] = network_interface | info
                 # for an unknown interface type we didn't find in testing
                 else:
                     dd("Unknown network interface: interface_type == 'interface'", True)
@@ -342,6 +360,11 @@ def get_net_interface_details(network_interfaces: list[dict[str, str | bool]], e
             if interface_type == "interface" and requester_id == "ec2":
                 dd("EC2 network interface", debug=debug)
                 info = get_instance_info(attachment_to_id, aws_config=aws_config)
+                network_interfaces[idx] = network_interface | info
+            # WorkSpaces
+            elif interface_type == "interface" and requester_id == "WorkSpace-Creation":
+                dd("WorkSpace network interface", debug=debug)
+                info = get_workspace_info(attachment_to_id, aws_config=aws_config)
                 network_interfaces[idx] = network_interface | info
             # Lambdas
             elif interface_type == "lambda":
@@ -519,6 +542,57 @@ def get_load_balancer_info(lb_name: str, lb_type: str, aws_config: Config) -> di
         return get_tags(tags) | {"AWS": f"ELB-{lb_type.upper()}"}
     except ClientError as e:
         return {"Name": lb_name, "Error": "Unexpected error: %s" % e}
+
+
+def get_directory_info(directory_id: str, aws_config: Config) -> dict[str, str]:
+    """Gets the Name and Project tags of a given directory
+
+    Args:
+        directory_id (str): the directory id
+
+    Returns:
+        dict[str, str]: the Name and Project tags of a given directory
+    """
+    # print(f"get_directory_info({directory_id}, {aws_config})")
+    client = boto3.client("ds", config=aws_config)
+    try:
+        dd_response = client.describe_directories(DirectoryIds=[directory_id])
+        directory_description = dd_response.get("DirectoryDescriptions")[0]
+        d_name = directory_description.get("Name")
+        lt_response = client.list_tags_for_resource(ResourceId=directory_id)
+        tags = lt_response["Tags"]
+        return {"Name": d_name, "Project": get_tags(tags).get("Project"),  "AWS": "Directory"}
+    except ClientError as e:
+        return {"Name": d_name, "Error": "Unexpected error: %s" % e}
+
+
+def get_workspace_info(private_ip_address: str, aws_config: Config) -> dict[str, str]:
+    """Gets the Name and Project tags of a given WorkSpace
+
+    Args:
+        directory_id (str): the directory id
+
+    Returns:
+        dict[str, str]: the Name and Project tags of a given WorkSpace
+    """
+    try:
+        client = boto3.client("workspaces", config=aws_config)
+        paginator = client.get_paginator("describe_workspaces")
+        response_iterator = paginator.paginate()
+        for page in response_iterator:
+            page_workspaces = page["Workspaces"]
+            for idx, workspace in enumerate(page_workspaces):
+                ip_address = workspace.get("IpAddress")
+                if ip_address == private_ip_address:
+                    ws_id = workspace.get("WorkspaceId")
+                    ws_name = workspace.get("UserName")
+                    directory_id = workspace.get("DirectoryId")
+                    d_info = get_directory_info(directory_id, aws_config)
+                    d_name = d_info.get("Name")
+                    d_project = d_info.get("Project")
+                    return {"Name": f"{ws_name}.{d_name}", "Project": d_project, "AWS": "WS", "AttachmentToId": ws_id}
+    except ClientError as e:
+        return {"Name": f"WorkSpace: {private_ip_address}", "Error": f"Unexpected error: {e}"}
 
 
 def get_transit_gateway_attachment_info(transit_gateway_attachment_id: str, aws_config: Config) -> dict[str, str]:
