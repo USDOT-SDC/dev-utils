@@ -194,8 +194,7 @@ def get_net_interfaces(env: str, debug: bool) -> list[dict[str, str | bool]]:
                         attachment_info = {"RequesterId": "WorkSpace-Creation", "AttachmentToId": private_ip_address}
                     # Lambda Functions
                     elif interface_type == "lambda":
-                        function_name = description[19:-37]
-                        attachment_info = {"RequesterId": "lambda", "AttachmentToId": function_name}
+                        attachment_info = {"RequesterId": "lambda", "AttachmentToId": "Lambda"}
                     # Transit Gateway Attachments
                     elif interface_type == "transit_gateway":
                         start = description.find("tgw-attach-")
@@ -512,11 +511,11 @@ def get_lambda_info(function_name: str, aws_config: Config) -> dict[str, str]:
         dict[str, str]: the Name and Project tags of a given Lambda function
     """
     # print(f"get_lambda_info({function_name})")
-    client = boto3.client("lambda", config=aws_config)
+    # client = boto3.client("lambda", config=aws_config)
     try:
-        response = client.get_function(FunctionName=function_name)
-        tags = response.get("Tags", [])
-        return get_tags(tags) | {"AWS": "Lambda"}
+        # response = client.get_function(FunctionName=function_name)
+        # tags = response.get("Tags", [])
+        return {"Name": function_name, "Project": "SDC-Platform","AWS": "Lambda"}
     except ClientError as e:
         return {"Name": function_name, "Error": "Unexpected error: %s" % e}
 
