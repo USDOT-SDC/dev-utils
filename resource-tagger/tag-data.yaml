@@ -1,0 +1,11 @@
+filters:
+  - Name: "tag:Role"
+    Values:
+      - Domain-Controller
+      - Support-Workstation
+      - Researcher-Workstation
+      - Pipeline-Server
+create_tags:
+  - Key: GlobalBackupPlan
+    Value: Standard-DM1Y
+delete_tags:
