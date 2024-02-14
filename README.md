@@ -6,7 +6,6 @@
 Welcome to the Developer Utilities repository! This collection of developer tools and utilities is designed to make your software development journey more efficient and productive. Whether you're a beginner or an experienced developer, these utilities can help you streamline common tasks, automate workflows, and improve your coding experience.
 
 ## Table of Contents
-
 - [Getting Started](#getting-started)
 - [Tools and Utilities](#tools-and-utilities)
 - [Contributing](#contributing)
@@ -14,7 +13,6 @@ Welcome to the Developer Utilities repository! This collection of developer tool
 - [Contact](#contact)
 
 ## Getting Started
-
 To get started with the Developer Utilities, follow these simple steps:
 
 1. **Clone the Repository**: First, clone this repository to your local machine:
@@ -32,21 +30,38 @@ To get started with the Developer Utilities, follow these simple steps:
 5. **Contribute**: If you have ideas for improvements or want to contribute a new utility, check out the [Contributing](#contributing) section below.
 
 ## Tools and Utilities
-
 ### AWS Network Interface Query
-
 The AWS Network Interface Query tool is a script that queries AWS network interfaces in your Amazon Web Services (AWS) environments.
 
 - [AWS Network Interface Query README](aws-net-if-query/README.md)
 
-### Windows Batch Files
+### Demo Data
+A collection of demo/sample data in various file formats.
 
+- [Demo Data README](/demo-data/README.md)
+
+### Resource Cleanup
+The AWS Resource Cleanup tools are a scripts used to identify resources that may need attention. This tool is designed to streamline those cleanup tasks.
+
+- [Resource Cleanup README](/resource-cleanup/README.md)
+
+### Resource Tagger
+The AWS Resource Tagger tool is a script that creates, updates or deletes tags in your Amazon Web Services (AWS) environments.
+
+- [Resource Tagger README](/resource-tagger/README.md)
+
+### SDC CLI
+The SDC CLI tool is a script that does stuff. This tool is designed to streamline tasks.
+
+- [SDC CLI README](/sdc-cli/README.md)
+
+### Windows Batch Files
 A collection of simple Windows batch files designed to help automate common tasks and processes on the Windows operating system.
 
 - [Windows Batch Files README](win-batch-files/README.md)
 
-## Contributing
 
+## Contributing
 We welcome contributions from the developer community! If you have ideas for new utilities, improvements to existing ones, or bug fixes, please check out our [contribution guidelines](CONTRIBUTING.md) for more information on how to get involved.
 
 ## Public domain
@@ -57,7 +72,6 @@ This project is in the worldwide [public domain](LICENSE.md). As stated in [CONT
 > All contributions to this project will be released under the CC0 dedication. By submitting a pull request, you are agreeing to comply with this waiver of copyright interest.
 
 ## Contact
-
 If you have any questions, suggestions, or issues related to the Developer Utilities, please [open an issue](https://github.com/USDOT-SDC/dev-utils/issues) on our GitHub repository.
 
 For general inquiries and support, you can reach out to us at [sdc-admins@dot.gov](mailto:sdc-admins@dot.gov).
