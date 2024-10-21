@@ -3,6 +3,7 @@ from pathlib import Path
 from os.path import expanduser
 from datetime import datetime
 import sys
+from typing import Any
 import requests
 import configparser
 import json
@@ -15,18 +16,18 @@ def refresh_token_when_needed(env: str) -> None:
     Args:
         env (str): the environment to refresh
     """
-    base_path = Path(__file__).parents[0]
-    datetime_file = base_path / f"last_token_refresh_{env}.txt"
+    base_path: Path = Path(__file__).parents[0]
+    datetime_file: Path = base_path / f"last_token_refresh_{env}.txt"
     if not datetime_file.exists():
         with open(datetime_file, "w") as f:
-            now = datetime.now()
+            now: datetime = datetime.now()
             f.write(now.astimezone().replace(microsecond=0).isoformat())
             token_refresh(env)
 
     datetime_format = "%Y%m%dT%H:%M:%S-%Z"
     with open(datetime_file, "r") as f:
-        date_str = f.readline()
-        then = datetime.fromisoformat(date_str)
+        date_str: str = f.readline()
+        then: datetime = datetime.fromisoformat(date_str)
 
     now = datetime.now().astimezone()
     if (now - then).total_seconds() > 2700:
@@ -42,17 +43,19 @@ def token_refresh(env: str) -> None:
         env (str): the environment to be used (dev, test, stage, prod)
     """
     # get the token refresh config
-    base_path = Path(__file__).parents[0]
-    config_file_path = base_path / f"config-{env}.yaml"
-    config = yaml.safe_load(config_file_path.read_text())
-    api_endpoint = config.get("api_endpoint", "https://www.sample.com/generate_token")
-    region_name = config.get("aws_config", None).get("region_name", "us-east-1")
+    base_path: Path = Path(__file__).parents[0]
+    config_file_path: Path = base_path / f"config-{env}.yaml"
+    config: Any = yaml.safe_load(config_file_path.read_text())
+    api_endpoint: str = config.get("api_endpoint", "https://www.sample.com/generate_token")
+    region_name: str = config.get("aws_config", None).get("region_name", "us-east-1")
 
     q.print_in_box(
         [
             "".ljust(80),
-            "Requesting token from...",
-            f"{api_endpoint}",
+            f"{config.get("profile_name", None)} profile:",
+            "Requesting new access keys and session token from...",
+            f"{api_endpoint.split("?")[0]}",
+            f"?{api_endpoint.split("?")[1]}",
             "",
         ],
         has_bottom=False,
@@ -60,7 +63,7 @@ def token_refresh(env: str) -> None:
     )
 
     # Requests credentials from token generator api
-    response = requests.post(
+    response: requests.Response = requests.post(
         api_endpoint,
         data=json.dumps({}),
         headers={
@@ -68,7 +71,9 @@ def token_refresh(env: str) -> None:
             "x-api-key": config["api_key"],
         },
     )
-    credentials = response.json()
+    credentials: Any = response.json()
+    if credentials.get("message"):
+        sys.exit(f"The API responded with '{credentials.get("message")}'")
 
     q.print_in_box(
         [
@@ -83,10 +88,10 @@ def token_refresh(env: str) -> None:
 
     # Update ~/.aws/credentials file
     home_path = Path(expanduser("~"))
-    aws_path = home_path / ".aws"
+    aws_path: Path = home_path / ".aws"
     aws_path.mkdir(parents=True, exist_ok=True)
     credentials_parser = configparser.RawConfigParser()
-    credentials_file = aws_path / "credentials"
+    credentials_file: Path = aws_path / "credentials"
     credentials_parser.read(credentials_file)
 
     if not credentials_parser.has_section(config["profile_name"]):
@@ -113,7 +118,7 @@ def token_refresh(env: str) -> None:
 
     # Update ~/.aws/config file
     config_parser = configparser.RawConfigParser()
-    config_file = aws_path / "config"
+    config_file: Path = aws_path / "config"
     config_parser.read(config_file)
 
     if not config_parser.has_section("profile " + config["profile_name"]):
