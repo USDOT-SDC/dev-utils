@@ -3,40 +3,6 @@
 import subprocess
 import sys
 
-# List of allowed usernames
-allowed_user_names: list[str] = [
-    "Brandon Fitzpatrick",
-    "Brian Davison",
-    "Christine Fitzgerald",
-    "Dianne Bauman",
-    "Doug Tong",
-    "Douglas Tong",
-    "Hamza Abdelghani",
-    "Jeff Ussing",
-    "Praveen Jinka",
-    "Pallavi Mehta",
-    "Shyla Morisetty",
-    "Vyach Mayorskiy",
-    "Vyacheslav Mayorskiy",
-    "Will Sharp",
-    "William Sharp",
-]
-
-# List of allowed user emails
-allowed_user_emails: list[str] = [
-    "b.fitzpatrick.ctr@dot.gov",
-    "brian.davison.ctr@dot.gov",
-    "c.m.fitzgerald.ctr@dot.gov",
-    "dianne.bauman.ctr@dot.gov",
-    "douglas.tong.ctr@dot.gov",
-    "hamza.abdelghani.ctr@dot.gov",
-    "Jeff.Ussing.CTR@dot.gov",
-    "praveen.jinka.ctr@dot.gov",
-    "shyla.morisetty@dot.gov",
-    "vyach.mayorskiy.ctr@dot.gov",
-    "william.sharp.ctr@dot.gov",
-]
-
 
 def get_user_name() -> str:
     # run 'git config user.name' to get the configured user name
@@ -52,27 +18,28 @@ def get_user_email() -> str:
     return git_user_email
 
 
-def is_string_in_list(string, list_of_strings) -> bool:
-    # convert strings to lower case and check for string in list of strings
-    for list_string in list_of_strings:
-        if string.lower() == list_string.lower():
-            return True
-    return False
+def is_full_name(name: str) -> bool:
+    """Check if the string consists of exactly two words, both starting with a capital letter."""
+    words = name.split()
+    return len(words) == 2 and all(word[0].isupper() for word in words)
+
+
+def is_correct_email(email: str) -> bool:
+    """Check if the email ends with @dot.gov."""
+    return email.endswith("@dot.gov")
 
 
 def main() -> None:
     error = False
     user_name: str = get_user_name()
-    if not is_string_in_list(user_name, allowed_user_names):
-        print(f"Error: Commit from unauthorized user.name '{user_name}'.")
-        print("Only commits from the following user.names are allowed:")
-        print("\n".join(allowed_user_names))
+    if not is_full_name(user_name):
+        print(f"Error: Your Git user.name:'{user_name}' has not been set correctly.")
+        print("Set your username with the command: 'git config --global user.name \"First Last\"'")
         error = True
     user_email: str = get_user_email()
-    if not is_string_in_list(user_email, allowed_user_emails):
-        print(f"Error: Commit from unauthorized user.email '{user_email}'.")
-        print("Only commits from the following user.email are allowed:")
-        print("\n".join(allowed_user_emails))
+    if not is_correct_email(user_email):
+        print(f"Error: Your Git user.email:'{user_email}' has not been set correctly.")
+        print("Set your email address with the command: 'git config --global user.email \"first.last.ctr@dot.gov\"'")
         error = True
     if error:
         sys.exit(1)
