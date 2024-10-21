@@ -33,9 +33,9 @@ The [`config-{env}.yaml`](token_refresh/config.sample.yaml) file will contain th
 - `aws_config` contains information used when creating the [Config object](https://boto3.amazonaws.com/v1/documentation/api/latest/guide/configuration.html) used by the Boto3 clients
 
 ```yaml
-api_endpoint: "https://example.com/generate_token"
-api_key: "xxxxXXXXxxxxXXXXxxxxXXXXxxxxXXXXxxxxXXXX"
-profile_name: my_user-dev
+api_endpoint: "https://example.com/v1/token?username=flast&user_key=YourUserKeyHere"
+api_key: "YourAPIKeyHere"
+profile_name: example
 aws_config:
   region_name: us-east-1
   retries:
