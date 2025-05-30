@@ -184,6 +184,9 @@ def get_net_interfaces(env: str, debug: bool) -> list[dict[str, str | bool]]:
                     elif description.startswith("AWS created network interface for directory d-"):
                         directory_id = description[-12:]
                         attachment_info = {"RequesterId": "amazon-directory", "AttachmentToId": directory_id}
+                    # Cross-account
+                    elif interface_type == "interface" and requester_id.isdigit():
+                        attachment_info = {"RequesterId": "cross-account", "AttachmentToId": requester_id}
                 # for interfaces that are not created/managed by an AWS service
                 else:
                     # EC2 instances
@@ -285,7 +288,7 @@ def get_net_interface_details(network_interfaces: list[dict[str, str | bool]], e
         mac_address = network_interface["MacAddress"]
         ip_address = network_interface["PrivateIpAddress"]
         ip_address_segments = ip_address.split(".")
-        description = network_interface["Description"]
+        description = network_interface.get("Description","")
         # this if/else classifies interfaces based on the odd ways that AWS identifies the where and why of the interface
         # for interfaces that are automatically created/managed by an AWS service
         # this section uses several similar functions, get_{service}_info(attachment_to_id)
@@ -329,6 +332,15 @@ def get_net_interface_details(network_interfaces: list[dict[str, str | bool]], e
                     dd("Directory network interface", debug=debug)
                     info = get_directory_info(directory_id=attachment_to_id, aws_config=aws_config)
                     info["Name"] = f"{info['Name']} {ip_address_segments[2]}.{ip_address_segments[3]}"
+                    network_interfaces[idx] = network_interface | info
+                # Route 53 Resolver
+                elif requester_id == "cross-account" and str(description).startswith("Route 53 Resolver:"):
+                    dd("Route 53 Resolver interface", debug=debug)
+                    info = {
+                        "Name": f"Route 53 Resolver {ip_address_segments[2]}.{ip_address_segments[3]}",
+                        "Project": "DOT Cloud",
+                        "AWS": "Route 53",
+                    }
                     network_interfaces[idx] = network_interface | info
                 # for an unknown interface type we didn't find in testing
                 else:
