@@ -1,0 +1,83 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"terraform.experimentalFeatures.prefillRequiredFields": true,
+		"git.autofetch": true,
+		"github.gitProtocol": "ssh",
+		"github-enterprise.uri": "https://git.dot.gov/",
+		"editor.suggest.preview": true,
+		"editor.fontFamily": "Fira Code",
+		"editor.fontLigatures": true,
+		"editor.tabSize": 4,
+		"editor.indentSize": "tabSize",
+		"diffEditor.ignoreTrimWhitespace": false,
+		"python.defaultInterpreterPath": "C:\\Program Files\\Python313\\python.exe",
+		"python.analysis.autoFormatStrings": true,
+		"python.analysis.completeFunctionParens": true,
+		"python.analysis.inlayHints.functionReturnTypes": true,
+		"python.analysis.inlayHints.variableTypes": true,
+		"python.languageServer": "Pylance",
+		"[python]": {
+			"editor.defaultFormatter": "ms-python.black-formatter"
+		},
+		"black-formatter.args": [
+			"--line-length",
+			"139"
+		],
+		"autoDocstring.startOnNewLine": true,
+		"cSpell.words": [
+			"apig",
+			"archiver",
+			"artemisstage",
+			"AWSSDK",
+			"customparametergrp",
+			"datavalidation",
+			"dateutil",
+			"direxists",
+			"eventbridge",
+			"FEDRAMP",
+			"FOIA",
+			"iopt",
+			"lastscantime",
+			"linefeeds",
+			"logdelivery",
+			"manylinux",
+			"msword",
+			"mvii",
+			"mviidb",
+			"newrelic",
+			"nhtp",
+			"NHTSA",
+			"nhtu",
+			"NOTSAFE",
+			"officedocument",
+			"openxmlformats",
+			"pdfs",
+			"pkey",
+			"presentationml",
+			"pycache",
+			"redrive",
+			"scansource",
+			"scanstatus",
+			"seatbelts",
+			"sendmessage",
+			"serverlessv",
+			"spreadsheetml",
+			"tfapply",
+			"Ussing",
+			"varnames",
+			"vininfo",
+			"wordprocessingml"
+		],
+		"cSpell.ignorePaths": [
+			"*.json",
+			"*.code-workspace",
+			"*.cmd"
+		],
+		"python.analysis.typeCheckingMode": "standard"
+	}
+}

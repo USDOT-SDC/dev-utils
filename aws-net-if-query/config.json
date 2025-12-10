@@ -1,0 +1,7 @@
+{
+    "profiles": [
+        "sdc-dev",
+        "sdc-prod"
+    ],
+    "region": "us-east-1"
+}

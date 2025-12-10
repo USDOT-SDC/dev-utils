@@ -1,9 +1,0 @@
-# Copy and rename to config-{env}.yaml
-api_endpoint: "https://example.com/v1/token?username=flast&user_key=YourUserKeyHere"
-api_key: "YourAPIKeyHere"
-profile_name: example
-aws_config:
-  region_name: us-east-1
-  retries:
-    max_attempts: 10
-    mode: "standard"

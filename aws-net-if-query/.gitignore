@@ -1,5 +1,2 @@
 ### specific ignores ###
 *.csv
-sandbox.py
-config-*.yaml
-last_token_refresh_*.txt
