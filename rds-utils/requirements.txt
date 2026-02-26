@@ -1,0 +1,4 @@
+boto3~=1.42
+rich~=13.0
+psycopg[binary]~=3.3
+pymysql~=1.1

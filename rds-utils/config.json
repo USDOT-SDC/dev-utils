@@ -1,0 +1,116 @@
+{
+    "aws_profiles": {
+        "dev": "sdc-dev",
+        "prod": "sdc-prod"
+    },
+    "resources": [
+        {
+            "name": "edgedb_external",
+            "env": "dev",
+            "engine": "aurora-postgresql",
+            "type": "cluster",
+            "arn": "arn:aws:rds:us-east-1:505135622787:cluster:aurora-dataexport-edge",
+            "target_version": "17.7",
+            "connection_details": {
+                "host": "aurora-dataexport-edge.cbldpsthn7bv.us-east-1.rds.amazonaws.com",
+                "port": 5432,
+                "username": "sdc_user",
+                "database": "rt_acme_edge_db",
+                "password": {
+                    "type": "ssm",
+                    "name": "/dev/edgedb_external/postgres_password"
+                }
+            }
+        },
+        {
+            "name": "edgedb_internal",
+            "env": "dev",
+            "engine": "aurora-postgresql",
+            "type": "cluster",
+            "arn": "arn:aws:rds:us-east-1:505135622787:cluster:aurora-dataexport-internal-cluster",
+            "target_version": "17.7",
+            "connection_details": {
+                "host": "aurora-dataexport-internal-cluster.cluster-cbldpsthn7bv.us-east-1.rds.amazonaws.com",
+                "port": 5432,
+                "username": "sdc_user",
+                "database": "rt_acme_internal_db",
+                "password": {
+                    "type": "ssm",
+                    "name": "/dev/edgedb_internal/postgres_password"
+                }
+            }
+        },
+        {
+            "name": "edgedb_external",
+            "env": "prod",
+            "engine": "aurora-postgresql",
+            "type": "cluster",
+            "arn": "arn:aws:rds:us-east-1:004118380849:cluster:edgedb-externaldb",
+            "target_version": "17.7",
+            "connection_details": {
+                "host": "edgedb-externaldb.cluster-cuwig46oq690.us-east-1.rds.amazonaws.com",
+                "port": 5432,
+                "username": "sdc_admin",
+                "database": "acme",
+                "password": {
+                    "type": "ssm",
+                    "name": "/prod/edgedb_external/postgres_password"
+                }
+            }
+        },
+        {
+            "name": "edgedb_internal",
+            "env": "prod",
+            "engine": "aurora-postgresql",
+            "type": "cluster",
+            "arn": "arn:aws:rds:us-east-1:004118380849:cluster:edgedb-internaldb",
+            "target_version": "17.7",
+            "connection_details": {
+                "host": "edgedb-internaldb.cluster-cuwig46oq690.us-east-1.rds.amazonaws.com",
+                "port": 5432,
+                "username": "sdc_admin",
+                "database": "acme",
+                "password": {
+                    "type": "ssm",
+                    "name": "/prod/edgedb_internal/postgres_password"
+                }
+            }
+        },
+        {
+            "name": "guacamole",
+            "env": "dev",
+            "engine": "mariadb",
+            "type": "instance",
+            "arn": "arn:aws:rds:us-east-1:505135622787:db:dev-guacamole",
+            "target_version": "11.8.6",
+            "connection_details": {
+                "host": "dev-guacamole.cbldpsthn7bv.us-east-1.rds.amazonaws.com",
+                "port": 3306,
+                "username": "guacamole_user",
+                "database": "guacamole_db",
+                "password": {
+                    "type": "ssm",
+                    "name": "guacamole-dev-mariadb-password"
+                }
+            }
+        },
+        {
+            "name": "guacamole",
+            "env": "prod",
+            "engine": "mariadb",
+            "type": "instance",
+            "arn": "arn:aws:rds:us-east-1:004118380849:db:prod-guacamole",
+            "target_version": "11.8.6",
+            "connection_details": {
+                "host": "prod-guacamole.cuwig46oq690.us-east-1.rds.amazonaws.com",
+                "port": 3306,
+                "username": "guacamole_user",
+                "database": "guacamole_db",
+                "password": {
+                    "type": "ssm",
+                    "name": "guacamole-prod-mariadb-password"
+                }
+            }
+        }
+    ]
+}
