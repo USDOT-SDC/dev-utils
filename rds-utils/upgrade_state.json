@@ -1,0 +1,88 @@
+{
+  "upgrades": {
+    "arn:aws:rds:us-east-1:505135622787:cluster:aurora-dataexport-edge": {
+      "name": "edgedb_external",
+      "env": "dev",
+      "engine": "aurora-postgresql",
+      "current_version": "17.7",
+      "target_version": "17.7",
+      "status": "completed",
+      "last_updated": "2026-02-26T22:44:41.589725+00:00",
+      "type": "cluster",
+      "upgrade_path": [
+        "17.7"
+      ],
+      "step_idx": 0
+    },
+    "arn:aws:rds:us-east-1:505135622787:cluster:aurora-dataexport-internal-cluster": {
+      "name": "edgedb_internal",
+      "env": "dev",
+      "engine": "aurora-postgresql",
+      "current_version": "17.7",
+      "target_version": "17.7",
+      "status": "completed",
+      "last_updated": "2026-02-26T22:44:42.697429+00:00",
+      "type": "cluster",
+      "upgrade_path": [
+        "17.7"
+      ],
+      "step_idx": 0
+    },
+    "arn:aws:rds:us-east-1:004118380849:cluster:edgedb-externaldb": {
+      "name": "edgedb_external",
+      "env": "prod",
+      "engine": "aurora-postgresql",
+      "current_version": "17.7",
+      "target_version": "17.7",
+      "status": "completed",
+      "last_updated": "2026-02-26T22:44:43.655837+00:00",
+      "type": "cluster",
+      "upgrade_path": [
+        "17.7"
+      ],
+      "step_idx": 0
+    },
+    "arn:aws:rds:us-east-1:004118380849:cluster:edgedb-internaldb": {
+      "name": "edgedb_internal",
+      "env": "prod",
+      "engine": "aurora-postgresql",
+      "current_version": "17.7",
+      "target_version": "17.7",
+      "status": "completed",
+      "last_updated": "2026-02-26T22:44:44.624944+00:00",
+      "type": "cluster",
+      "upgrade_path": [
+        "17.7"
+      ],
+      "step_idx": 0
+    },
+    "arn:aws:rds:us-east-1:505135622787:db:dev-guacamole": {
+      "name": "guacamole",
+      "env": "dev",
+      "engine": "mariadb",
+      "current_version": "11.8.6",
+      "target_version": "11.8.6",
+      "status": "completed",
+      "last_updated": "2026-02-26T22:44:45.631528+00:00",
+      "type": "instance",
+      "upgrade_path": [
+        "11.8.6"
+      ],
+      "step_idx": 0
+    },
+    "arn:aws:rds:us-east-1:004118380849:db:prod-guacamole": {
+      "name": "guacamole",
+      "env": "prod",
+      "engine": "mariadb",
+      "current_version": "11.8.6",
+      "target_version": "11.8.6",
+      "status": "completed",
+      "last_updated": "2026-02-26T22:44:46.730771+00:00",
+      "type": "instance",
+      "upgrade_path": [
+        "11.8.6"
+      ],
+      "step_idx": 0
+    }
+  }
+}
