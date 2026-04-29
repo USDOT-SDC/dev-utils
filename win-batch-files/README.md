@@ -23,6 +23,7 @@ Here are some of the batch files available in this repository:
 - `tf.bat`: terraform shortcut
 - `tfinit.bat`: terraform init shortcut
 - `venva.bat`: activates a Python virtual environment
+- [Claude Mode Switcher](claude-mode-README.md)
 
 Feel free to explore these batch files and modify them to suit your specific needs.
 
