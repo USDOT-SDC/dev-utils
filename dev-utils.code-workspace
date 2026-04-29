@@ -9,26 +9,22 @@
 		"terraform.experimentalFeatures.prefillRequiredFields": true,
 		"git.autofetch": true,
 		"github.gitProtocol": "ssh",
-		"github-enterprise.uri": "https://git.dot.gov/",
 		"editor.suggest.preview": true,
 		"editor.fontFamily": "Fira Code",
 		"editor.fontLigatures": true,
 		"editor.tabSize": 4,
 		"editor.indentSize": "tabSize",
 		"diffEditor.ignoreTrimWhitespace": false,
-		"python.defaultInterpreterPath": "C:\\Program Files\\Python313\\python.exe",
+		"python.defaultInterpreterPath": "C:\\Program Files\\Python314\\python.exe",
 		"python.analysis.autoFormatStrings": true,
 		"python.analysis.completeFunctionParens": true,
 		"python.analysis.inlayHints.functionReturnTypes": true,
 		"python.analysis.inlayHints.variableTypes": true,
 		"python.languageServer": "Pylance",
 		"[python]": {
-			"editor.defaultFormatter": "ms-python.black-formatter"
+			"editor.defaultFormatter": "charliermarsh.ruff"
 		},
-		"black-formatter.args": [
-			"--line-length",
-			"139"
-		],
+		"ruff.lineLength": 139,
 		"autoDocstring.startOnNewLine": true,
 		"cSpell.words": [
 			"apig",
